@@ -1,112 +1,94 @@
-# Setup
+# Tipos
 
-## 01 - Instale o typescript global na sua máquina
+Vamos falar um pouco sobre tipos.
 
-```
-sudo npm install -g typescript
-```
-
-## 02 - Crie o arquivo `package.json`
+De forma geral a sintaxe dos tipos em typescript é assim:
 
 ```
-npm init -y
+    let myVariable: MyType;
 ```
 
-## 03 - Configure o `tsconfig.json`
+A seguir alguns exemplos de tipos básicos retirados da [documentação oficial](https://www.typescriptlang.org/docs/handbook/basic-types.html).
+
+####Boolean
 
 ```
-    {
-      "compilerOptions": {
-        "module": "commonjs",
-        "target": "es5",
-        "sourceMap": true
-      },
-      "exclude": [
-        "node_modules"
-      ]
-    }
+let isDone: boolean = false;
 ```
 
-## 04 - Instale o webpack e algumas dependências
-
-Webpack:
+####Number
 
 ```
-npm install webpack webpack-cli webpack-dev-server html-webpack-plugin --save-dev
-``` 
-
-Loader para typescript:
-
-```
-npm install typescript ts-loader --save-dev
+let decimal: number = 6;
+let hex: number = 0xf00d;
+let binary: number = 0b1010;
+let octal: number = 0o744;
 ```
 
-## 05 - Configure o `webpack.config.js`
+####String
+
+String podem ser escritas tanto com " " quanto com ' '.
+
 
 ```
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
-
-module.exports = {
-    entry: path.join(__dirname, '/app.ts'),
-    output: {
-        filename: 'app.js',
-        path: __dirname
-    },
-    module: {
-        rules: [
-            {
-                test: /\.tsx?$/,
-                loader: 'ts-loader',
-                exclude: /node_modules/,
-            },
-        ]
-    },
-    resolve: {
-        extensions: [".tsx", ".ts", ".js"]
-    },
-
-    plugins: [
-        new HtmlWebpackPlugin({
-            template: './public/index.html'
-        }),
-    ]
-};
+let color: string = "blue";
 ```
 
-## 06 - Crie o arquivo `app.ts`
+####Array
 
 ```
-    console.log('Picles');
+let list: number[] = [1, 2, 3];
 ```
 
-## 07 - Crie o arquivo `public/index.html`
+ou
 
 ```
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <title>Typescript Workshop</title>
-    </head>
-    <body>
-    
-    </body>
-</html>
+let list: Array<number> = [1, 2, 3];
 ```
 
-## 08 - Atualize o `package.json`
+Eu não curto essa segunda forma de escrever Array com generic. Evitem.
+
+####Tuple
+
+É uma forma chique de array com posições fixa e tipos definidos.
 
 ```
-"scripts": {
-    "start": "webpack-dev-server --mode development"
-},
+let x: [string, number];
+
+x = ["hello", 10];
 ```
 
-## 09 - Execute a aplicação
+####Enum
+
+Na documentação é ressaltada a capacidade de associar valores com números, mas também podemos guardar valores de string.
 
 ```
-    npm start
-``` 
+enum Color {Red, Green, Blue};
 
-Você verá o console "Picles", em http://localhost:8080
+console.log(Color.Red); // log 0
+```
+
+Na declaração default todos os valores são associados com números começando de 0, mas podemos especificar os valores tanto com string quanto com number.
+
+```
+enum Color {Red='red', Green='green', Blue='blue'};
+console.log(Color.Red); // log 'red'
+```
+
+####Any
+
+Não deveria ser usado, representa qualquer coisa. Se você está usando provavelmente você deveria usar direto Javascript.
+
+####Void
+
+Representa uma variável sem retorno. Na verdade para variáveis é meio inútil, pois só pode guardar o valor null. 
+
+É mais útil para identificar que uma função não possui retorno.
+
+```
+function warnUser(): void {
+    console.log("This is my warning message");
+}
+```
+
+Agora vamos por a mão na massa no arquivo `app.ts`.
