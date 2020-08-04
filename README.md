@@ -75,6 +75,14 @@ enum Color {Red='red', Green='green', Blue='blue'};
 console.log(Color.Red); // log 'red'
 ```
 
+Nós também podemos substituir os enums por union types:
+
+```
+let color: 'red' | 'green' | 'blue';
+```
+
+Não é a mesma coisa, mas pode ser usado para um propósito semelhante.
+
 ####Any
 
 Não deveria ser usado, representa qualquer coisa. Se você está usando provavelmente você deveria usar direto Javascript.
@@ -89,6 +97,21 @@ Representa uma variável sem retorno. Na verdade para variáveis é meio inútil
 function warnUser(): void {
     console.log("This is my warning message");
 }
+```
+
+####Generics
+
+Em typescript nós também podemos criar classes e funções com tipo 'generic', como nos arrays e observables.
+
+Basicamente é algo que precisa de uma "dica" de qual tipo ele lida.
+
+```
+function identity<T>(arg: T): T {
+    return arg;
+}
+
+let explicit = identity<string>('Picles'); // explícito
+let implicit = identity('Picles') // implícito
 ```
 
 Agora vamos por a mão na massa no arquivo `app.ts`.

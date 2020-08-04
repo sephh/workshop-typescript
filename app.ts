@@ -1,12 +1,10 @@
 /**
- * Crie uma classe do tipo Pickles com os seguintes tipos:
- * name: string
- * rate: number
- * log: () => void
+ * Crie uma classe Pickles de um tipo generics com os seguintes campos
+ * add: (x: T, y: T) => T
+ * getMaxValue: () => T
  * */
 
 
-
 /**
- * Crie um instância de Pickles e execute a função log que loga no console o nome e o rate
+ * Crie um instância de Pickles e execute a função que retorna o valor máximo
  * */
