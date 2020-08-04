@@ -17,6 +17,7 @@ Por isso se você só está criando uma classe para definir quais campos existem
 ```
 interface Pickles{
     taste: string;
+    calories?: number; 
     price: number;
     sell: () => void;
 }
