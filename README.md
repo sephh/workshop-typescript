@@ -10,7 +10,7 @@ De forma geral a sintaxe dos tipos em typescript é assim:
 
 A seguir alguns exemplos de tipos básicos retirados da [documentação oficial](https://www.typescriptlang.org/docs/handbook/basic-types.html).
 
-####Boolean
+#### Boolean
 
 ```
 let isDone: boolean = false;
@@ -25,7 +25,7 @@ let binary: number = 0b1010;
 let octal: number = 0o744;
 ```
 
-####String
+#### String
 
 String podem ser escritas tanto com " " quanto com ' '.
 
@@ -34,7 +34,7 @@ String podem ser escritas tanto com " " quanto com ' '.
 let color: string = "blue";
 ```
 
-####Array
+#### Array
 
 ```
 let list: number[] = [1, 2, 3];
@@ -48,7 +48,7 @@ let list: Array<number> = [1, 2, 3];
 
 Eu não curto essa segunda forma de escrever Array com generic. Evitem.
 
-####Tuple
+#### Tuple
 
 É uma forma chique de array com posições fixa e tipos definidos.
 
@@ -58,7 +58,7 @@ let x: [string, number];
 x = ["hello", 10];
 ```
 
-####Enum
+#### Enum
 
 Na documentação é ressaltada a capacidade de associar valores com números, mas também podemos guardar valores de string.
 
@@ -83,11 +83,11 @@ let color: 'red' | 'green' | 'blue';
 
 Não é a mesma coisa, mas pode ser usado para um propósito semelhante.
 
-####Any
+#### Any
 
 Não deveria ser usado, representa qualquer coisa. Se você está usando provavelmente você deveria usar direto Javascript.
 
-####Void
+#### Void
 
 Representa uma variável sem retorno. Na verdade para variáveis é meio inútil, pois só pode guardar o valor null. 
 
@@ -99,7 +99,7 @@ function warnUser(): void {
 }
 ```
 
-####Generics
+#### Generics
 
 Em typescript nós também podemos criar classes e funções com tipo 'generic', como nos arrays e observables.
 
