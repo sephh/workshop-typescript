@@ -1,2 +1,2 @@
-import './interfaces';
+import './classes';
 
