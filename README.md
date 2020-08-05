@@ -1,102 +1,161 @@
-# Interfaces
+# Classes
 
-Javascript é muito bom em usar qualquer atributo de um objeto. 
+Nós já implementamos algumas classes antes de chegar nesse tópico, mas vamos nos aprofundar mais no assunto.
 
-Como podemos deixar explícito esse atributo em determinado objeto?
+#### Herança
 
-Interfaces ao resgate.
-
-As interfaces são indicadas para definir os "tipos virtuais", pois quando o código é transpilado elas simplesmente são removida. 
-
-Como Javascript não é tipado elas não fazem parte do bundle, já as classes são estruturas que existem no Javascript e fazem parte do bundle.
-
-Por isso se você só está criando uma classe para definir quais campos existem nela, considere usar interface.
-
-#### Sintaxe
+Usado para reaproveitar um comportamento compartilhado entre várias outras classes.
 
 ```
-interface Pickles{
-    taste: string;
-    calories?: number; 
-    price: number;
-    sell: () => void;
+class Animal {
+    eat() {
+        console.log('eating...');
+    }
 }
-```
 
-#### Garantindo campos em uma classe
+class Pony extends Animal {
+    run() {
+        console.log('running...');
+    }
+}
 
-```
-class Good implements Pickles{
-    taste: string;
-    price: number;
-
-    sell(){
-        console.log(`Mercadoria ${this.taste} vendida por ${this.price}`)
+class Dog extends Animal {
+    bark() {
+        console.log('barking...');
     }
 }
 ```
 
-#### Usando como tipo
+#### Super
+
 
 ```
-let picles: Pickles = new Good();
-let picles2: Pickles = {taste: 'Delicioso', price:10, sell(){}};
-```
+class Animal {
+    name:string;
 
-## Type
+    constructor(name:string) {
+        this.name = name;
+    }
+    
+    eat() {
+        console.log('eating...');
+    }
+}
 
-Typescript também tem um cara esquisito que é o `type`, parece muito com interface, mas tem casos de uso limitado. 
+class Pony extends Animal {
+    hasRibbon: boolean;
+    
+    constructor(name:string, hasRibbon:boolean) {
+        super(name);
+        this.hasRibbon = hasRibbon;
+    }
+    
+    run() {
+        console.log('running...');
+    }
+}
 
-Eu realmente uso em situações muito específicas.
+class Dog extends Animal {
+    hasCollar: boolean;
 
-Você pode usar para definir um tipo igual interface, mas a sintace é meio confusa, parece que você está setando valor e não definido um modelo.
+    constructor(name:string, hasCollar:boolean) {
+        super(name);
+        this.hasCollar = hasCollar;
+    }
+    
+    eat() {
+        super.eat();
+        console.log('like a dog...')
+    }
 
-Veja o exemplo:
-
-```
-type Pickles = {
-    taste: string;
-    price: number;
-    sell: () => void;
+    bark() {
+        console.log('barking...');
+    }
 }
 ```
 
-Aquele "=" é meio esquisito, talvez por isso se veja pouca implementação desse jeito. Podemos utilizá-lo do mesmo jeito de uma interface.
-
-Em quais ocasiões eu costumo usar?
-
-#### União entre tipos
+#### Private, Protected, Public e Readonly
 
 ```
-interface A {
-    taste: string;
-    price: number;
+class Food {
+    readonly calories: number = 1000; // somente leitura, deve ser inicializada na declaração ou no construtor
+    public name: string = 'Picles'; // acessado através da instância
+    private price: number = 10; // acessado dentro da classe Food
+    protected taste: string = 'Delicious'; // acessado dentro da classe Food e suas subclasses (quem herdar)
 }
 
-interface B {
-    sell: () => void;
-}
+const picles = new Food();
 
-type Pickles = A & B;
+console.log(picles.name);
+console.log(picles.price); // vai dar erro
+console.log(picles.taste); // vai dar erro
+picles.calories = 20; // vai dar erro
 ```
 
-Dessa forma criamos um novo tipo que tem todas as propriedades de A e B.
-
-#### Intersecção entre tipos
+#### Get e Set
 
 ```
-interface A {
-    taste: string;
-    price: number;
+class User {
+    private _fullName;
+
+    get fullName(): string {
+        return this._fullName;
+    }
+
+    set fullName(fullName: string) {
+        this._fullName = `Sr(a) ${fullName}`;
+    }
 }
 
-interface B {
-    taste: string;
-    sell: () => void;
-}
-
-type Pickles = A | B;
+const user = new User();
+user.fullName = 'Picles';
+console.log(user.fullName);
 ```
 
-Dessa forma criamos um novo tipo que tem apenas as propriedades comuns em A e B. Nesse caso "taste".
+#### Static
 
+Propriedades `static` são membros da classe e não de sua instância, ou seja, podemos acessar seus valores sem ter que instanciar um objeto.
+
+Por conta disso não podemos acessar membros da instância da classe.
+
+```
+class Example{
+    static StaticValue = 'Picles';
+}
+
+console.log(Example.StaticValue);
+```
+
+#### Abstract
+
+As classes abstratas servem de base para outras classes e não podem ser instanciadas. 
+
+Elas tem um propósito muito parecido com o das interfaces, porém, podemos fazer implementações nelas.
+
+```
+abstract class BaseUser {
+    name: string;
+    lastName: string;
+
+    constructor(name:string, lastName:string) {
+        this.name = name;
+        this.lastName = lastName;
+    }
+
+    get fullName(): string {
+        return `${this.name} ${this.lastName}`
+    }
+
+    abstract logUser(): void;
+}
+
+class User extends BaseUser{
+    logUser(): void {
+        console.log('O nome do usuário é: ', this.fullName);
+    }
+}
+
+const baseUser = new BaseUser('Picles', 'Silva'); // Cannot create an instance of an abstract class.
+const user = new User('Picles', 'Silva');
+user.logUser();
+```
