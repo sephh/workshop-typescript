@@ -66,7 +66,7 @@ const validate = (target, propName: string, descriptor: PropertyDescriptor) => {
     const method = descriptor.value;
 
     descriptor.value = function (...args) {
-        const fieldsToValidate = this[requiredFieldsKey];
+        const fieldsToValidate = this[requiredFieldsKey] || {};
 
         if (Object.values(fieldsToValidate).some(v => !v)) {
             const invalidFields: string[] = [];
@@ -89,13 +89,15 @@ class UserForm {
     @required
     lastName: string;
 
+    cpf: string;
+
     @validate
     submit() {
-        console.log('It\'s valid!!!', this.name, this.lastName);
+        console.log('It\'s valid!!!', this.name, this.lastName, this.cpf);
     }
 }
 
 const form = new UserForm();
-// form.name = 'Picles';
-// form.lastName = 'Silva';
+form.name = 'Picles';
+form.lastName = 'Silva';
 form.submit();
